@@ -42,7 +42,7 @@
 <body>
 	<center>
 		<h1>Game</h1>
-		<p>Siin tekst</p>
+		<p>Score: <text id="score">0</p>
 		
 		<table>
 			<tr><td id="11"></td><td id="12"></td><td id="13"></td><td id="14"></td><td id="15"></td></tr>
@@ -52,10 +52,10 @@
 			<tr><td id="51"></td><td id="52"></td><td id="53"></td><td id="54"></td><td id="55"></td></tr>
 		</table>
 		
-		<button id="up">Up</button>
-		<button id="down">Down</button>
-		<button id="right">Right</button>
-		<button id="left">Left</button>
+		<button id="up">üles</button>
+		<button id="down">alla</button>
+		<button id="right">paremale</button>
+		<button id="left">vasakule</button>
 	</center>
 </body>
 
@@ -86,8 +86,19 @@
 		treasurePosY = getRandomNumber(1, 5);
 		var idOfPos = treasurePosY.toString() + treasurePosX.toString();
 		$("#" + idOfPos).addClass("treasure");
+		
 	}
 	
+	function addPoints(){
+	    if(playerPosX == treasurePosX && playerPosY ==treasurePosY){
+			score += 50;
+			var idOfPos = treasurePosY.toString() + treasurePosX.toString();
+			$("#" + idOfPos).removeClass("treasure");
+			$("#score").html(score);
+			spawnTreasure();
+		}
+		    
+	}
 	
 	playerPosX = getRandomNumber(1, 5);
 	playerPosY = getRandomNumber(1, 5);	
@@ -99,11 +110,12 @@
 	$("#up").click(
 		function(){
 			$("#" + getPlayerPosId()).removeClass("player");
-			playerPosY += 1;
-			if(playerPosY == 5){
-			    playerPosY = 0;
+			playerPosY -= 1;
+			if(playerPosY == 0){
+			    playerPosY = 5;
 			}
 			updatePlayerPos();
+			addPoints();
 		}
 	);
 	
@@ -115,17 +127,19 @@
 			    playerPosY = 1;
 			}
 			updatePlayerPos();
+			addPoints();
 		}
 	);
 	
 	$("#right").click(
 		function(){
 			$("#" + getPlayerPosId()).removeClass("player");
-			playerPosX -= 1;
+			playerPosX += 1;
 			if(playerPosX == 6){
 			    playerPosX = 1;
 			}
 			updatePlayerPos();
+			addPoints();
 		}
 	);
 	
@@ -137,6 +151,7 @@
 			    playerPosX = 5;
 			}
 			updatePlayerPos();
+			addPoints();
 		}
 	);
 
